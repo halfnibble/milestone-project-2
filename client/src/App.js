@@ -1,8 +1,15 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 
-import logo from "./logo.svg";
+import Nav from "./components/Nav";
 import "./App.css";
+
+const Home = lazy(() => import("./components/Home"));
+const Register = lazy(() => import("./components/Register"));
+const Login = lazy(() => import("./components/Login"));
+const TodoList = lazy(() => import("./components/TodoList"));
+const TodoForm = lazy(() => import("./components/TodoForm"));
 
 function App() {
     const [message, setMessage] = useState("Loading...");
@@ -22,20 +29,19 @@ function App() {
             <header className="App-header">
                 <h1>Test</h1>
                 <h3>{message}</h3>
-                <h4>Don't tell anyone this: {secret}</h4>
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Takeover React
-                </a>
+                <h4>Don't tell anyone this: "{secret}"</h4>
+                <Nav />
             </header>
+
+            <Suspense fallback={<h1>Loading...</h1>}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/todos" element={<TodoList />} />
+                    <Route path="/todos/form" element={<TodoForm />} />
+                </Routes>
+            </Suspense>
         </div>
     );
 }
