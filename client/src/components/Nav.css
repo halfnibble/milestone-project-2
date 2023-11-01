@@ -1,0 +1,21 @@
+.navbutton {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #61dafb;
+    color: #333;
+    border-radius: 4px;
+    margin: 3px 4px;
+    text-decoration: none;
+    border: 1px solid #333;
+}
+
+.navbutton:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.navbutton:active, .navbutton.active {
+    background-color: #333;
+    color: #61dafb;
+    border: 1px solid #61dafb;
+}
