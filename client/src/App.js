@@ -8,7 +8,7 @@ function App() {
     const [message, setMessage] = useState("Loading...");
     const [secret, setSecret] = useState("Loading...");
 
-    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
     useEffect(() => {
         axios.get(`${API_URL}/`).then((resp) => {
