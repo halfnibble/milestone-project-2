@@ -69,10 +69,7 @@ app.get("/todos", express.json(), async (req, res) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const todos = await listTodosForUser(token);
-        res.send({
-            message: "Todos retrieved successfully!",
-            todos,
-        });
+        res.send(todos);
     } catch (err) {
         res.status(400).send({
             message: "Error retrieving todos!",
@@ -86,10 +83,7 @@ app.post("/todos", express.json(), async (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         const { name } = req.body;
         const todo = await createTodoForUser(token, name);
-        res.send({
-            message: "Todo created successfully!",
-            todo,
-        });
+        res.send(todo);
     } catch (err) {
         res.status(400).send({
             message: "Error creating todo!",
@@ -104,10 +98,7 @@ app.put("/todos/:id", express.json(), async (req, res) => {
         const { id } = req.params;
         const { name, completed } = req.body;
         const todo = await updateTodoItem(token, id, name, completed);
-        res.send({
-            message: "Todo updated successfully!",
-            todo,
-        });
+        res.send(todo);
     } catch (err) {
         res.status(400).send({
             message: "Error updating todo!",

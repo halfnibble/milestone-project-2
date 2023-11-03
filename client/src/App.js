@@ -39,7 +39,6 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/todos" element={<TodoList />} />
-                    <Route path="/todos/form" element={<TodoForm />} />
                 </Routes>
             </Suspense>
         </div>

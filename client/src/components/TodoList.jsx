@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// Bootstrap
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+import TodoForm from "./TodoForm";
+import TodoItem from "./TodoItem";
+
 const TodoList = () => {
     const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
     const [todos, setTodos] = useState([]);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -15,22 +25,62 @@ const TodoList = () => {
             })
             .then((response) => {
                 console.log(response);
-                setTodos(response.data.todos);
+                setTodos(response.data);
             })
             .catch((error) => {
                 console.log(error);
             });
     }, []);
 
+    const newTodoCallback = (todo) => {
+        const newTodos = [...todos];
+        newTodos.unshift(todo);
+        setTodos(newTodos);
+        setShowForm(false);
+    };
+
+    const updateTodoCallback = (todo) => {
+        const newTodos = [...todos];
+        const index = newTodos.findIndex((t) => t.id === todo.id);
+        newTodos[index] = todo;
+        setTodos(newTodos);
+    };
+
     return (
-        <div>
-            <h1>Todo List</h1>
-            <ul>
-                {todos.map((todo) => (
-                    <li key={todo.id}>{todo.name}</li>
-                ))}
-            </ul>
-        </div>
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col xs lg="8" style={{ position: "relative" }}>
+                    <h1 style={{ textAlign: "left" }}>
+                        Todo List
+                        <Button
+                            variant="success"
+                            style={{ position: "absolute", right: "0", top: "10px" }}
+                            onClick={() => {
+                                setShowForm(!showForm);
+                            }}
+                        >
+                            Add New
+                        </Button>
+                    </h1>
+                    <div
+                        className={"todoFormDropdown"}
+                        style={{ display: showForm ? "block" : "none" }}
+                    >
+                        <TodoForm saveTodoCallback={newTodoCallback} />
+                    </div>
+
+                    <ul>
+                        {todos.map((todo) => (
+                            <TodoItem
+                                key={todo.id}
+                                {...todo}
+                                saveTodoCallback={updateTodoCallback}
+                            />
+                        ))}
+                    </ul>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
